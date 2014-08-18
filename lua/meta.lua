@@ -1,4 +1,5 @@
 --[[ 
+	Clocky by Jake AKA Breny
 	This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 ]]
 
@@ -140,6 +141,6 @@ end
 
 function meta:SendClocky()
 	net.Start("SendClockyTime")
-		net.WriteUInt(self:GetClocky(), 16)
+		net.WriteInt(math.ceil(self:GetClocky()), 16)
 	net.Send(self)
 end

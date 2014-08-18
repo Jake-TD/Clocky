@@ -1,4 +1,5 @@
 --[[ 
+	Clocky by Jake AKA Breny
 	This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 ]]
 
@@ -128,7 +129,6 @@ end)
 
 hook.Add("PlayerDisconnected", "ClockyPlayerLeave", function(ply)
 	ply:SaveClocky()
-	print(ply:TimeConnected() .. ' seconds of playtime that session!')
 end)
 
 hook.Add("ShutDown", "ClockyShutdown", function(ply)
