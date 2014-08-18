@@ -14,9 +14,11 @@
 	If the savetype is set to 'both', Clocky will save both as file and PData but will ALWAYS load PData!
 */
 
-Clocky = {}
-Clocky.Save = {}
-Clocky.SQL = {}
+Clocky 		= {}
+Clocky.Save 	= {}
+Clocky.SQL 	= {}
+
+-- Config
 
 Clocky.Save.Type 	= "PData" --'PData', 'file' or 'both'
 Clocky.Save.Folder 	= "Clocky" --What folder in DATA to save to, if savetype is file
