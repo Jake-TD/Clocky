@@ -3,10 +3,6 @@
 	This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 ]]
 
-/*
-	player meta
-*/
-
 local meta = FindMetaTable("Player")
 
 function meta:LoadClockySQL()
@@ -136,7 +132,7 @@ function meta:SaveClocky()
 end
 
 function meta:GetClocky()
-	return (self.ClockyCurrentTime + math.ceil(self:TimeConnected()))
+	return (self.ClockyCurrentTime + math.ceil(self:TimeConnected() - self.ClockyLastSave))
 end
 
 function meta:SendClocky()

@@ -122,9 +122,23 @@ end
 	Saving, loading etc
 */
 
+--Autosaving
+
+if Clocky.Save.Autosave then
+	timer.Create('ClockyAutoSave', Clocky.Save.Delay, 0, function()
+		for k,v in pairs(player.GetAll()) do
+			v:SaveClocky()
+			v.ClockyLastSave = v:TimeConnected()
+		end
+	end)
+end
+
 hook.Add("PlayerInitialSpawn", "ClockyPlayerJoin", function(ply)
 	ply:LoadClocky()
 	ply:SendClocky()
+	if Clocky.Save.Autosave then
+		ply.ClockyLastSave = 0
+	end
 end)
 
 hook.Add("PlayerDisconnected", "ClockyPlayerLeave", function(ply)

@@ -20,6 +20,8 @@ Clocky.SQL = {}
 
 Clocky.Save.Type = "PData" --'PData', 'file' or 'both'
 Clocky.Save.Folder = "Clocky" --What folder in DATA to save to, if savetype is file
+Clocky.Save.Autosave = true --Enable autosave?
+Clocky.Save.Interval = 300 --How often to autosave
 
 Clocky.SQL.Enabled = false --Change this to true to enable SQL, fill in the required stuff below if true!
 Clocky.SQL.Standalone = false --Do you want it to save only to MySQL or still use PData/file alongside MySQL?
