@@ -26,7 +26,7 @@ Clocky.Save.Autosave 	= true --Enable autosave?
 Clocky.Save.Interva	= 300 --How often to autosave
 
 Clocky.SQL.Enabled 	= false --Change this to true to enable SQL, fill in the required stuff below if true!
-Clocky.SQL.Module 	= "mysqloo" -- Choose between "mysqloo" and "tmysql"
+Clocky.SQL.Module 	= "mysqloo" --Choose between "mysqloo" and "tmysql"
 Clocky.SQL.Standalone 	= false --Do you want it to save only to MySQL or still use PData/file alongside MySQL?
 Clocky.SQL.Servername 	= "SERVER" --This is how Clocky will keep track of how long players have played on this specific server, for example 'TTT#1'
 
@@ -34,4 +34,5 @@ Clocky.SQL.Host 	= "" --IP
 Clocky.SQL.Port 	= 3306 --Port
 Clocky.SQL.Database 	= "" --Name of the database
 Clocky.SQL.Username 	= "" --The username used to connect to the database
-Clocky.SQL.Password 	= "" ---Password of the above user
+Clocky.SQL.Password 	= "" --Password of the above user
+Clocky.SQL.Socket	= "" --Database socketing; leave blank unless you are not using default
