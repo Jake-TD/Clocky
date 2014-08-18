@@ -21,7 +21,7 @@ function meta:LoadClockySQL()
 
 		local shouldOverrideSQL = true
 
-		if ClockyDB:status() == mysqloo.DATABASE_NOT_CONNECTED then
+		if Clocky.SQL.Module == 'mysqloo' and ClockyDB:status() == mysqloo.DATABASE_NOT_CONNECTED then
 			ClockyDB:connect()
 			ClockyDB:wait()
 			if ClockyDB:status() == mysqloo.DATABASE_NOT_CONNECTED then
@@ -96,7 +96,7 @@ function meta:SaveClocky()
 		timeplayed[Clocky.SQL.Servername] = self.ClockyCurrentTime
 		timeplayed = von.serialize(timeplayed)
 
-		if ClockyDB:status() == mysqloo.DATABASE_NOT_CONNECTED then
+		if Clocky.SQL.Module == 'mysqloo' and ClockyDB:status() == mysqloo.DATABASE_NOT_CONNECTED then
 			ClockyDB:connect()
 			ClockyDB:wait()
 			if ClockyDB:status() == mysqloo.DATABASE_NOT_CONNECTED then return end
