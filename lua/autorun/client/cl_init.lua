@@ -3,11 +3,12 @@
 	This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 ]]
 
+CreateClientConVar( "clocky_showui", "1", true, false )
+
 local ClockyTimePlayed = 0
 local TimeFormatted = string.FormattedTime(ClockyTimePlayed)
 local ClockyIcon = Material( 'clocky/clocky_icon.png', "noclamp" )
 local ScreenW = ScrW()
-local ScreenH = ScrH()
 
 net.Receive("SendClockyTime", function(length, client)
 	ClockyTimePlayed = net.ReadInt(16)
@@ -31,6 +32,8 @@ local mainfont = surface.CreateFont( "clockyfont", {
 } )
 
 hook.Add("HUDPaint", "ClockyHUDPaint", function()
+
+	if GetConVar("clocky_showui"):GetInt() == 0 then return end
 
 	surface.SetDrawColor( 157, 192, 224, 255 )
 	surface.DrawRect( ScreenW - 96, 18, 80, 42 )
