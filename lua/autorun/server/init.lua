@@ -166,7 +166,7 @@ if Clocky.SQL.Enabled then
 
 		function query(sql)
 
-			function onCompleted( results, status, err )
+			local function onCompleted( results, status, err )
 				if status == QUERY_SUCCESS then
 					print('++Clocky query successful++')
 				else
