@@ -125,7 +125,7 @@ end
 --Autosaving
 
 if Clocky.Save.Autosave then
-	timer.Create('ClockyAutoSave', Clocky.Save.Delay, 0, function()
+	timer.Create('ClockyAutoSave', Clocky.Save.Interval, 0, function()
 		for k,v in pairs(player.GetAll()) do
 			v:SaveClocky()
 			v.ClockyLastSave = v:TimeConnected()
