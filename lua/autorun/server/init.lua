@@ -98,7 +98,6 @@ if Clocky.SQL.Enabled then
 
 		function query(sql)
 
-
 			local q = ClockyDB:query(sql)
 
 			function q:onSuccess( data )
@@ -152,12 +151,14 @@ if Clocky.SQL.Enabled then
 			local qs = "SELECT timeplayed FROM clocky_userinfo WHERE steamid = '" .. ply:SteamID() .. "' LIMIT 1"
 
 			local function onCompleted(results, status, err)
+				
 				if status == QUERY SUCCESS then
 					ply.ClockySQLTime = data
 					ply:LoadClockySQL()
 				else
 					ErrorNoHalt('++Clocky error loading user++\n  Error: ' .. err)
 				end
+				
 			end
 			
 			ClockyDB:Query(qs, onCompleted)
@@ -167,11 +168,13 @@ if Clocky.SQL.Enabled then
 		function query(sql)
 
 			local function onCompleted( results, status, err )
+				
 				if status == QUERY_SUCCESS then
 					print('++Clocky query successful++')
 				else
 					ErrorNoHalt( err )
 				end
+				
 			end
 
 			ClockyDB:Query(sql, onCompleted)
