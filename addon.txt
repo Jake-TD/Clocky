@@ -1,0 +1,10 @@
+"AddonInfo"
+{
+	"name"		"Clocky"
+	"version"	"1.0"
+	"info"		"Keeps track of how long people have played!"
+	"up_date"	"08/2014"
+	"author_name"	"Jake/Breny"
+	"author_email"	"n/a"
+	"author_url"	"n/a"
+}
