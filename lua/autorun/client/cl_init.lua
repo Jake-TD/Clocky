@@ -2,20 +2,20 @@
 	This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 ]]
 
-local ply = LocalPlayer()
-ply.ClockyTimePlayed = 0
-ply.TimeFormatted = string.FormattedTime(ply.ClockyTimePlayed)
+local ClockyTimePlayed = 0
+local TimeFormatted = string.FormattedTime(ClockyTimePlayed)
 local ClockyIcon = Material( 'clocky/clocky_icon.png', "noclamp" )
 local ScreenW = ScrW()
 local ScreenH = ScrH()
 
 net.Receive("SendClockyTime", function(length, client)
-	ply.ClockyTimePlayed = net.ReadUInt(16)
-	ply.TimeFormatted = string.FormattedTime(ply.ClockyTimePlayed)
+	ClockyTimePlayed = net.ReadInt(16)
+	TimeFormatted = string.FormattedTime(ClockyTimePlayed)
 end )
 
-timer.Create('ClockyClientsideTimer', 1, 0, function()
-	ply.ClockyTimePlayed = ply.ClockyTimePlayed + 1
+timer.Create('ClockyUpdateFormatted', 60, 0, function()	
+	ClockyTimePlayed = ClockyTimePlayed + 60
+	TimeFormatted = string.FormattedTime(ClockyTimePlayed)
 end)
 
 local mainfont = surface.CreateFont( "clockyfont", {
@@ -41,7 +41,7 @@ hook.Add("HUDPaint", "ClockyHUDPaint", function()
 	surface.SetDrawColor( 255,255,255,255 )
 	surface.DrawTexturedRect( ScreenW - 140, 16, 46, 46 )
 
-	draw.DrawText("Hours: " .. ply.TimeFormatted['h'], mainfont, ScreenW - 90, 24, Color(106, 130, 150, 255), TEXT_ALIGN_LEFT)	
-	draw.DrawText("Min: " .. ply.TimeFormatted['m'], mainfont, ScreenW - 90, 40, Color(106, 130, 150, 255), TEXT_ALIGN_LEFT)
+	draw.DrawText("Hours: " .. TimeFormatted['h'], mainfont, ScreenW - 90, 24, Color(106, 130, 150, 255), TEXT_ALIGN_LEFT)	
+	draw.DrawText("Minutes: " .. TimeFormatted['m'], mainfont, ScreenW - 90, 40, Color(106, 130, 150, 255), TEXT_ALIGN_LEFT)
 
 end)
