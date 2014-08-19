@@ -3,6 +3,9 @@
 	This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 ]]
 
+include('cl_adminmenu.lua')
+include('von.lua')
+
 CreateClientConVar( "clocky_showui", "1", true, false )
 
 local ClockyTimePlayed = 0

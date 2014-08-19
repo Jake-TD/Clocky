@@ -16,6 +16,7 @@
 
 Clocky 		= {}
 Clocky.Save 	= {}
+Clocky.Admin	= {}
 Clocky.SQL 	= {}
 
 -- Config
@@ -24,6 +25,10 @@ Clocky.Save.Type 	= "PData" --'PData', 'file' or 'both'
 Clocky.Save.Folder 	= "Clocky" --What folder in DATA to save to, if savetype is file
 Clocky.Save.Autosave 	= true --Enable autosave?
 Clocky.Save.Interval	= 300 --How often to autosave
+
+Clocky.Admin.Enabled = true --Enable the admin menu?
+Clocky.Admin.Ranks = {'admin', 'superadmin'} --What ranks can use the admin panel? These will not have access to config
+Clocky.Admin.HighRanks = {'superadmin'} --These ranks will also have access to config
 
 Clocky.SQL.Enabled 	= false --Change this to true to enable SQL, fill in the required stuff below if true!
 Clocky.SQL.Module 	= "mysqloo" --Choose between "mysqloo" and "tmysql"

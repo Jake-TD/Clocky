@@ -165,3 +165,27 @@ function meta:SendClockyAdmin()
 	net.Send(self)
 
 end
+
+function meta:ClockyCanConfig()
+	umsg.Start( "ClockyCanConfig" )
+		umsg.Bool( true )
+	umsg.End()
+end
+
+function meta:IsClockyRank()
+	for k,v in pairs(Clocky.Admin.Ranks) do
+		if self:IsUserGroup(v) then
+			return true
+		end
+	end
+	return false
+end
+
+function meta:IsClockyHighRank()
+	for k,v in pairs(Clocky.Admin.HighRanks) do
+		if self:IsUserGroup(v) then
+			return true
+		end
+	end
+	return false
+end

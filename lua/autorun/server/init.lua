@@ -7,6 +7,14 @@ include('config.lua')
 include('meta.lua')
 include('von.lua')
 
+if Clocky.Admin.Enabled then
+	AddCSLuaFile('von.lua')
+	util.AddNetworkString("SendClockyAdmin")
+end
+
+AddCSLuaFile('cl_adminmenu.lua') --This will be needed either way for a small config menu to let players hide/show UI
+resource.AddFile('resource/fonts/absender1.ttf') --This too
+
 resource.AddFile('materials/clocky/clocky_icon.png')
 
 util.AddNetworkString("SendClockyTime")
@@ -35,7 +43,7 @@ end
 if Clocky.SQL.Enabled then
 	
 	if Clocky.SQL.Module == 'mysqloo' then
-		if not mysqloo then error('mysqloo module is not active!') return end
+		if not mysqloo then error('mysqloo module is not active!') end
 		
 		if Clocky.SQL.Socket == "" then
 			ClockyDB = mysqloo.connect(Clocky.SQL.Host, Clocky.SQL.Username, Clocky.SQL.Password, Clocky.SQL.Database, Clocky.SQL.Port)
@@ -209,21 +217,51 @@ hook.Add("PlayerInitialSpawn", "ClockyPlayerJoin", function(ply)
 	if Clocky.Save.Autosave then
 		ply.ClockyLastSave = 0
 	end
+
+	if !Clocky.Admin.Enabled or !istable(Clocky.Admin.Ranks) then return end
+	
+	local IsHighRank = ply:IsClockyHighRank()
+
+	--Send the new data to admins
+
+	for k,v in pairs(player.GetAll()) do
+		if v == ply and IsHighRank then 
+			v:ClockyCanConfig()
+			v:SendClockyAdmin()
+		elseif v:IsClockyRank() or v:IsClockyHighRank() then
+			v:SendClockyAdmin()
+		end
+	end
+
 end)
 
 hook.Add("PlayerDisconnected", "ClockyPlayerLeave", function(ply)
 	ply:SaveClocky()
+
+	if !Clocky.Admin.Enabled or !istable(Clocky.Admin.Ranks) then return end
+
+	--Send the new data to admins
+
+	for k,v in pairs(player.GetAll()) do
+		if v == ply then return end		
+		if v:IsClockyRank() or v:IsClockyHighRank() then
+			v:SendClockyAdmin()
+		end
+	end
+
 end)
 
-hook.Add("ShutDown", "ClockyShutdown", function(ply)
-	ply:SaveClocky()
+hook.Add("ShutDown", "ClockyShutdown", function()
+	for k,v in pairs(player.GetAll()) do
+		v:SaveClocky()
+	end
 end)
 
 /*
 	Extra for saving to file
 */
 
-if Clocky.Save.Type == 'PData' then return end --Don't need these if PData
+if Clocky.Save.Type == 'PData' or Clocky.SQL.Standalone then return end --Don't need these if PData
 
 function Clocky:LoadFile(steamid)
 	local filecontents = file.Read(Clocky.Save.Folder .. '/'  .. steamid .. '.txt', 'DATA')
