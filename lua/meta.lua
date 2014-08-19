@@ -167,7 +167,7 @@ function meta:SendClockyAdmin()
 end
 
 function meta:ClockyCanConfig()
-	umsg.Start( "ClockyCanConfig" )
+	umsg.Start( "ClockyCanConfig", self )
 		umsg.Bool( true )
 	umsg.End()
 end

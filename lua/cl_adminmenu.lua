@@ -141,6 +141,12 @@ end
 
 concommand.Add('clocky_menu', ShowClockyMenu)
 
+usermessage.Hook( "ClockyOpenMenu", function()
+	ShowClockyMenu()
+end)
+
+--Custom 'skin' attempt
+
 local SKIN = {}
 
 function SKIN:PaintFrame( panel )

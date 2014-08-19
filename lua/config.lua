@@ -21,6 +21,8 @@ Clocky.SQL 	= {}
 
 -- Config
 
+Clocky.MenuCommand = "!clocky" --What to say in chat to open the menu?
+
 Clocky.Save.Type 	= "PData" --'PData', 'file' or 'both'
 Clocky.Save.Folder 	= "Clocky" --What folder in DATA to save to, if savetype is file
 Clocky.Save.Autosave 	= true --Enable autosave?

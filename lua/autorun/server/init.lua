@@ -197,6 +197,19 @@ if Clocky.SQL.Enabled then
 end
 
 /*
+	Chat commands
+*/
+
+hook.Add( "PlayerSay", "ClockyOpenMenu", function(ply, text, team)
+	if text == Clocky.MenuCommand then
+		umsg.Start( "ClockyOpenMenu", ply )
+			umsg.Bool( true )
+		umsg.End()
+		return false
+	end
+end)
+
+/*
 	Saving, loading etc
 */
 
