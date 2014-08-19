@@ -35,7 +35,7 @@ end
 if Clocky.SQL.Enabled then
 	
 	if Clocky.SQL.Module == 'mysqloo' then
-		if not mysqloo then error('mysqloo module is not active!') return end
+		if not mysqloo then error('mysqloo module is not active!') end
 		
 		if Clocky.SQL.Socket == "" then
 			ClockyDB = mysqloo.connect(Clocky.SQL.Host, Clocky.SQL.Username, Clocky.SQL.Password, Clocky.SQL.Database, Clocky.SQL.Port)
