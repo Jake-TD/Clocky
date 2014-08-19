@@ -3,14 +3,6 @@
 	This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 ]]
 
-if Clocky.SQL.Enabled then
-	if Clocky.SQL.Module == 'mysqloo' then 
-		require('mysqloo')
-	elseif Clocky.SQL.Module == 'tmysql' then 
-		require ('tmysql4')
-	end
-end
-
 include('config.lua')
 include('meta.lua')
 include('von.lua')
@@ -18,6 +10,14 @@ include('von.lua')
 resource.AddFile('materials/clocky/clocky_icon.png')
 
 util.AddNetworkString("SendClockyTime")
+
+if Clocky.SQL.Enabled then
+	if Clocky.SQL.Module == 'mysqloo' then 
+		require('mysqloo')
+	elseif Clocky.SQL.Module == 'tmysql' then 
+		require ('tmysql4')
+	end
+end
 
 if (Clocky.Save.Type == 'file' or Clocky.Save.Type == 'both') and !file.Exists(Clocky.Save.Folder, 'DATA') then
 	file.CreateDir(Clocky.Save.Folder) --Check if directory exists in data, if not make one
@@ -35,7 +35,7 @@ end
 if Clocky.SQL.Enabled then
 	
 	if Clocky.SQL.Module == 'mysqloo' then
-		if not mysqloo then error('mysqloo module is not active!')
+		if not mysqloo then error('mysqloo module is not active!') return end
 		
 		if Clocky.SQL.Socket == "" then
 			ClockyDB = mysqloo.connect(Clocky.SQL.Host, Clocky.SQL.Username, Clocky.SQL.Password, Clocky.SQL.Database, Clocky.SQL.Port)
