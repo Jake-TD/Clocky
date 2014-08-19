@@ -132,7 +132,11 @@ function meta:SaveClocky()
 end
 
 function meta:GetClocky()
-	return (self.ClockyCurrentTime + math.ceil(self:TimeConnected() - self.ClockyLastSave))
+	if !IsValid(self.ClockyLastSave) then
+		return (self.ClockyCurrentTime + math.ceil(self:TimeConnected()))
+	else
+		return (self.ClockyCurrentTime + math.ceil(self:TimeConnected() - self.ClockyLastSave))
+	end
 end
 
 function meta:SendClocky()
