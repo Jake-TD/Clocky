@@ -23,7 +23,7 @@ Clocky.SQL 	= {}
 Clocky.Save.Type 	= "PData" --'PData', 'file' or 'both'
 Clocky.Save.Folder 	= "Clocky" --What folder in DATA to save to, if savetype is file
 Clocky.Save.Autosave 	= true --Enable autosave?
-Clocky.Save.Interva	= 300 --How often to autosave
+Clocky.Save.Interval	= 300 --How often to autosave
 
 Clocky.SQL.Enabled 	= false --Change this to true to enable SQL, fill in the required stuff below if true!
 Clocky.SQL.Module 	= "mysqloo" --Choose between "mysqloo" and "tmysql"
