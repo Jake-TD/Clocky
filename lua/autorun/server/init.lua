@@ -3,7 +3,13 @@
 	This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 ]]
 
-require('mysqloo')
+if Clocky.SQL.Enabled then
+	if Clocky.SQL.Module == 'mysqloo' then 
+		require('mysqloo')
+	elseif Clocky.SQL.Module == 'tmysql' then 
+		require ('tmysql4')
+	end
+end
 
 include('config.lua')
 include('meta.lua')
@@ -27,95 +33,159 @@ end
 */
 
 if Clocky.SQL.Enabled then
-
-	ClockyDB = mysqloo.connect(Clocky.SQL.Host, Clocky.SQL.Username, Clocky.SQL.Password, Clocky.SQL.Database, Clocky.SQL.Port)
-	ClockyDBQueue = {}
-
-	print('++Clocky connecting++')
-
-	function ClockyDB:onConnected()
-
-		print('++Clocky connected to database++')
-
-		for k, v in pairs( ClockyDBQueue ) do
-			query( v[1], v[2] )
+	
+	if Clocky.SQL.Module == 'mysqloo' then
+		if not mysqloo then error('mysqloo module is not active!')
+		
+		if Clocky.SQL.Socket == "" then
+			ClockyDB = mysqloo.connect(Clocky.SQL.Host, Clocky.SQL.Username, Clocky.SQL.Password, Clocky.SQL.Database, Clocky.SQL.Port)
+		else
+			ClockyDB = mysqloo.connect(Clocky.SQL.Host, Clocky.SQL.Username, Clocky.SQL.Password, Clocky.SQL.Database, Clocky.SQL.Port, Clocky.SQL.Socket)
 		end
 
 		ClockyDBQueue = {}
 
-	end
+		print('++Clocky connecting++')
 
-	function ClockyDB:onConnectionFailed(err)
-		print('++Clocky failed to connect++\n  Error: ' .. err)
-	end
+		function ClockyDB:onConnected()
 
-	ClockyDB:connect()
+			print('++Clocky connected to database++')
 
-	function Clocky:GetData(ply)
-
-		local qs = "SELECT timeplayed FROM clocky_userinfo WHERE steamid = '" .. ply:SteamID() .. "' LIMIT 1"
-		local q = ClockyDB:query(qs)
-
-		function q:onSuccess(data)
-
-			ply.ClockySQLTime = data
-			ply:LoadClockySQL()
-
-		end
-		
-		function q:onError(err)
-
-			print('++Clocky error loading user++\n  Error: ' .. err)
-
-			if ClockyDB:status() == mysqloo.DATABASE_NOT_CONNECTED then
-				print('++Clocky not connected while fetching data, refreshing++')
-				ClockyDB:connect() --This stops it from timing out for dumb reasons and not getting the data properly by reconnecting and redoing it if needed
-				ClockyDB:wait()
-				print('++Clocky attempting to fetch data++')
-				Clocky:GetData(ply)
-				return
+			for k, v in pairs( ClockyDBQueue ) do
+				query( v[1], v[2] )
 			end
 
+			ClockyDBQueue = {}
+
 		end
+
+		function ClockyDB:onConnectionFailed(err)
+			print('++Clocky failed to connect++\n  Error: ' .. err)
+		end
+
+		ClockyDB:connect()
+
+		function Clocky:GetData(ply)
+
+			local qs = "SELECT timeplayed FROM clocky_userinfo WHERE steamid = '" .. ply:SteamID() .. "' LIMIT 1"
+			local q = ClockyDB:query(qs)
+
+			function q:onSuccess(data)
+
+				ply.ClockySQLTime = data
+				ply:LoadClockySQL()
+
+			end
 		
-		q:start()
+			function q:onError(err)
 
-	end
+				print('++Clocky error loading user++\n  Error: ' .. err)
 
-	function query(sql)
+				if ClockyDB:status() == mysqloo.DATABASE_NOT_CONNECTED then
+					print('++Clocky not connected while fetching data, refreshing++')
+					ClockyDB:connect() --This stops it from timing out for dumb reasons and not getting the data properly by reconnecting and redoing it if needed
+					ClockyDB:wait()
+					print('++Clocky attempting to fetch data++')
+					Clocky:GetData(ply)
+					return
+				end
 
-
-		local q = ClockyDB:query(sql)
-
-		function q:onSuccess( data )
-
-			print('++Clocky query successful++')
+			end
+		
+			q:start()
 
 		end
 
-		function q:onError(err)
+		function query(sql)
 
-			if ClockyDB:status() == mysqloo.DATABASE_NOT_CONNECTED then
-				table.insert( ClockyDBQueue, sql )
-				print('++Clocky not connected, refreshing++')
-				ClockyDB:connect()
-				return
+			local q = ClockyDB:query(sql)
+
+			function q:onSuccess( data )
+
+				print('++Clocky query successful++')
+
 			end
 
-			print('++Clocky query errored++\n  Error: ' .. err)
+			function q:onError(err)
+
+				if ClockyDB:status() == mysqloo.DATABASE_NOT_CONNECTED then
+					table.insert( ClockyDBQueue, sql )
+					print('++Clocky not connected, refreshing++')
+					ClockyDB:connect()
+					return
+				end
+
+				print('++Clocky query errored++\n  Error: ' .. err)
+
+			end
+
+			q:start()
 
 		end
 
-		q:start()
+		--Made this into a timer because it will error if the ClockyDB is not yet connected, so giving it some time to
 
+		timer.Create('ClockyCreateDatabase', 3, 1, function()
+			query('CREATE TABLE IF NOT EXISTS clocky_userinfo(steamid TEXT, timeplayed TEXT)')
+		end)
+		
+	elseif Clocky.SQL.Module == 'tmysql' then
+		if not tmysql then error('tmysql module is not active!') end
+		
+		print('++Clocky connecting++')
+		
+		if Clocky.SQL.Socket == "" then
+			ClockyDB, err = tmysql.initialize(Clocky.SQL.Host, Clocky.SQL.Username, Clocky.SQL.Password, Clocky.SQL.Database, Clocky.SQL.Port)
+		else
+			ClockyDB, err = tmysql.initialize(Clocky.SQL.Host, Clocky.SQL.Username, Clocky.SQL.Password, Clocky.SQL.Database, Clocky.SQL.Port, Clocky.SQL.Socket)
+		end
+
+		if ClockyDB then
+			print('++Clocky connected to database++')
+		elseif err then
+			ErrorNoHalt('++Clocky failed to connect++\n  Error: ' .. err)
+		end
+
+		function Clocky:GetData(ply)
+
+			local qs = "SELECT timeplayed FROM clocky_userinfo WHERE steamid = '" .. ply:SteamID() .. "' LIMIT 1"
+
+			local function onCompleted(results, status, err)
+				
+				if status == QUERY SUCCESS then
+					ply.ClockySQLTime = data
+					ply:LoadClockySQL()
+				else
+					ErrorNoHalt('++Clocky error loading user++\n  Error: ' .. err)
+				end
+				
+			end
+			
+			ClockyDB:Query(qs, onCompleted)
+
+		end
+
+		function query(sql)
+
+			local function onCompleted( results, status, err )
+				
+				if status == QUERY_SUCCESS then
+					print('++Clocky query successful++')
+				else
+					ErrorNoHalt( err )
+				end
+				
+			end
+
+			ClockyDB:Query(sql, onCompleted)
+
+		end
+
+		timer.Create('ClockyCreateDatabase', 3, 1, function()
+			query('CREATE TABLE IF NOT EXISTS clocky_userinfo(steamid TEXT, timeplayed TEXT)')
+		end)
+		
 	end
-
-	--Made this into a timer because it will error if the ClockyDB is not yet connected, so giving it some time to
-
-	timer.Create('ClockyCreateDatabase', 3, 1, function()
-		query('CREATE TABLE IF NOT EXISTS clocky_userinfo(steamid TEXT, timeplayed TEXT)')
-	end)
-	
 end
 
 /*
