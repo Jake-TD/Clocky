@@ -132,7 +132,12 @@ function meta:SaveClocky()
 end
 
 function meta:GetClocky()
-	if !IsValid(self.ClockyLastSave) then
+	if !Clocky.Save.Autosave then
+		return (self.ClockyCurrentTime + math.ceil(self:TimeConnected()))
+	end
+
+	if self.ClockyLastSave == nil then
+		self.ClockyLastSave = self:TimeConnected()
 		return (self.ClockyCurrentTime + math.ceil(self:TimeConnected()))
 	else
 		return (self.ClockyCurrentTime + math.ceil(self:TimeConnected() - self.ClockyLastSave))
@@ -143,4 +148,20 @@ function meta:SendClocky()
 	net.Start("SendClockyTime")
 		net.WriteInt(math.ceil(self:GetClocky()), 16)
 	net.Send(self)
+end
+
+if !Clocky.Admin.Enabled then return end
+
+function meta:SendClockyAdmin()
+
+	local StuffToSend = {}
+	for k,v in pairs(player.GetAll()) do
+		StuffToSend[#StuffToSend+1] = {n = v:Nick(), id = v:SteamID(), t = v:GetClocky()}
+	end
+	StuffToSend = von.serialize(StuffToSend)
+
+	net.Start("SendClockyAdmin")
+		net.WriteString(StuffToSend)
+	net.Send(self)
+
 end
