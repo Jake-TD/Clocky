@@ -152,7 +152,7 @@ if Clocky.SQL.Enabled then
 
 			local function onCompleted(results, status, err)
 				
-				if status == QUERY SUCCESS then
+				if status == QUERY_SUCCESS then
 					ply.ClockySQLTime = data
 					ply:LoadClockySQL()
 				else
