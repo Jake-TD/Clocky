@@ -270,6 +270,49 @@ hook.Add("ShutDown", "ClockyShutdown", function()
 	end
 end)
 
+concommand.Add('clocky_addtime', function(p, c, a)
+
+	if (not a[1]) or (not a[2]) or (not a[3]) then return end
+	if not (p:IsClockyHighRank() and p:IsSuperAdmin()) then return end
+	
+	local targetply = a[1]
+	local timetype = a[2]
+	local targettime = a[3]
+
+	if targettime <= 0 then return end
+
+	if not (timetype == 'm' or timetype == 'h') then return end
+
+	if not isnumber(tonumber(targettime)) then return end
+	targettime = math.ceil(targettime)
+
+	for k,v in pairs(player.GetAll()) do
+		if string.find(string.lower(v:Nick()), string.lower(targetply)) then
+			targetply = v
+			break
+		elseif v:SteamID() == targetply then
+			targetply = v
+			break
+		end
+	end
+
+	local multiplier = 1
+
+	if timetype == 'h' then
+		multiplier = 3600
+	elseif timetype == 'm' then
+		multiplier = 60
+	end
+
+	if targetply:IsPlayer() then
+		targetply.ClockyCurrentTime = targetply.ClockyCurrentTime + (targettime*multiplier)
+		umsg.Start( "ClockyTimeChanged", targetply )
+			umsg.Long( (targettime*multiplier) )
+		umsg.End()
+	end
+
+end)
+
 /*
 	Extra for saving to file
 */

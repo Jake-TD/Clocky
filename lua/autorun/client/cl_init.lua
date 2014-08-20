@@ -18,6 +18,11 @@ net.Receive("SendClockyTime", function(length, client)
 	TimeFormatted = string.FormattedTime(ClockyTimePlayed)
 end )
 
+usermessage.Hook( "ClockyTimeChanged", function( data )
+	ClockyTimePlayed = data:ReadLong()	
+	TimeFormatted = string.FormattedTime(ClockyTimePlayed)
+end)
+
 timer.Create('ClockyUpdateFormatted', 60, 0, function()	
 	ClockyTimePlayed = ClockyTimePlayed + 60
 	TimeFormatted = string.FormattedTime(ClockyTimePlayed)
