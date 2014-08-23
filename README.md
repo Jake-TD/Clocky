@@ -3,7 +3,9 @@ Clocky
 
 An addon for Garry's Mod to keep track of how long users have played on your server(s)
 
-If you want to use the MySQL saving, you'll need MySQLOO, found here: http://facepunch.com/showthread.php?t=1357773
+If you want to use the MySQL saving, you'll need either MySQLOO or tmysql4, found here:
+http://facepunch.com/showthread.php?t=1357773
+http://blackawps-glua-modules.googlecode.com/svn/!svn/bc/82/trunk/gm_tmysql4/Release/
 
 Clocky is something I made because I couldn't find something to keep track of playtime on multiple servers at once.
 What it does is keep track of how long you play, and depending on the config save it to MySQL.
