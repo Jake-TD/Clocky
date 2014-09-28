@@ -22,12 +22,12 @@ Clocky.SQL 	= {}
 -- Config
 
 Clocky.MenuCommand 	= "!clocky" 	--What to say in chat to open the menu?
-Clocky.SendResources	= "false"	--resource.AddFile the materials and font automatically?
+Clocky.SendResources 	= "false"	--resource.AddFile the materials and font automatically?
 
 Clocky.Save.Type 	= "PData" 	--'PData', 'file' or 'both'
 Clocky.Save.Folder 	= "Clocky" 	--What folder in DATA to save to, if savetype is file
 Clocky.Save.Autosave 	= true 		--Enable autosave?
-Clocky.Save.Interval	= 300 		--How often to autosave
+Clocky.Save.Interval 	= 300 		--How often to autosave
 
 Clocky.Admin.Enabled 	= true 				--Enable the admin menu?
 Clocky.Admin.Ranks 	= {'admin', 'superadmin'} 	--What ranks can use the admin panel? These will not have access to config
@@ -43,4 +43,4 @@ Clocky.SQL.Port 	= 3306 	--Port
 Clocky.SQL.Database 	= "" 	--Name of the database
 Clocky.SQL.Username 	= "" 	--The username used to connect to the database
 Clocky.SQL.Password 	= "" 	--Password of the above user
-Clocky.SQL.Socket	= "" --Database socketing; leave blank unless you are not using default
+Clocky.SQL.Socket	= "" 	--Database socketing; leave blank unless you are not using default
