@@ -7,7 +7,7 @@ If you want to use the MySQL saving, you'll need either MySQLOO or tmysql4, foun
 * http://facepunch.com/showthread.php?t=1357773
 * http://blackawps-glua-modules.googlecode.com/svn/trunk/gm_tmysql4_boost/Release/
 
-Put the module in lua/bin/.
+Put the module in ~/garrysmod/lua/bin/.
 
 Clocky is something I made because I couldn't find something to keep track of playtime on multiple servers at once.
 What it does is keep track of how long you play, and, depending on the config, saves it to MySQL.
