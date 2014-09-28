@@ -22,7 +22,7 @@ Clocky.SQL 	= {}
 -- Config
 
 Clocky.MenuCommand 	= "!clocky" 	--What to say in chat to open the menu?
-Clocky.SendResources 	= "false"	--resource.AddFile the materials and font automatically?
+Clocky.SendResources 	= false		--resource.AddFile the materials and font automatically?
 
 Clocky.Save.Type 	= "PData" 	--'PData', 'file' or 'both'
 Clocky.Save.Folder 	= "Clocky" 	--What folder in DATA to save to, if savetype is file
