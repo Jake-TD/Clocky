@@ -5,6 +5,8 @@
 
 local meta = FindMetaTable("Player")
 
+meta.ClockyCurrentTime = 0 --Hacky fix to prevent the value from being nil
+
 function meta:LoadClockySQL()
 
 	if #self.ClockySQLTime > 0 then
@@ -12,7 +14,7 @@ function meta:LoadClockySQL()
 		self.ClockySQLTime = von.deserialize(self.ClockySQLTime)
 
 		if IsValid(self.ClockySQLTime[Clocky.SQL.Servername]) then
-			self.ClockyCurrentTime = self.ClockySQLTime[Clocky.SQL.Servername]
+			self.ClockyCurrentTime = self.ClockySQLTime[Clocky.SQL.Servername] or 0
 		end
 
 		print('++Clocky - FINISHED++')
