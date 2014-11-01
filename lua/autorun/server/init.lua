@@ -13,9 +13,11 @@ if Clocky.Admin.Enabled then
 end
 
 AddCSLuaFile('cl_adminmenu.lua') --This will be needed either way for a small config menu to let players hide/show UI
-resource.AddFile('resource/fonts/absender1.ttf') --This too
 
-resource.AddFile('materials/clocky/clocky_icon.png')
+if Clocky.SendResources then
+	resource.AddFile('resource/fonts/absender1.ttf')
+	resource.AddFile('materials/clocky/clocky_icon.png')
+end
 
 util.AddNetworkString("SendClockyTime")
 
