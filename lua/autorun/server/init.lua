@@ -3,6 +3,10 @@
 	This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 ]]
 
+AddCSLuaFile( "von.lua" )
+AddCSLuaFile( "config.lua" )
+AddCSLuaFile( "meta.lua" )
+
 include('config.lua')
 include('meta.lua')
 include('von.lua')
